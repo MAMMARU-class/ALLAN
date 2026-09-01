@@ -30,7 +30,7 @@ async def entrypoint(ctx: JobContext):
         stt=stt.FallbackAdapter(
             [
                 inference.STT.from_model_string("assemblyai/universal-streaming:en"),
-                inference.STT.from_model_string("deepgram/nova-3"),
+                inference.STT.from_model_string("deepgram/nova-3:ja"),
             ]
         ),
         llm = llm.FallbackAdapter(
@@ -39,7 +39,12 @@ async def entrypoint(ctx: JobContext):
                 inference.LLM.from_model_string(model="openai/gpt-4.1-mini"),
             ]
         ),
-        tts="cartesia/sonic-3:5cad89c9-d88a-4832-89fb-55f2f16d13d3",                              # Text-to-speech voice
+        tts = tts.FallbackAdapter(
+            [
+                inference.TTS.from_model_string("cartesia/sonic-3:5cad89c9-d88a-4832-89fb-55f2f16d13d3"), # english voice
+                inference.TTS.from_model_string("rime/coda:ren"), # japanese voice
+            ]
+        ),
         vad=silero.VAD.load(),                    # Voice activity detection
         turn_detection=MultilingualModel(),       # Turn detection for conversation management
     )
