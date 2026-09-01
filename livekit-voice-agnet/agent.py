@@ -35,8 +35,8 @@ async def entrypoint(ctx: JobContext):
         ),
         llm = llm.FallbackAdapter(
             [
-                inference.LLM.from_model_string(model="openai/gpt-4.1-mini"),
                 inference.LLM.from_model_string(model="google/gemini-2.5-flash"),
+                inference.LLM.from_model_string(model="openai/gpt-4.1-mini"),
             ]
         ),
         tts="cartesia/sonic-3:5cad89c9-d88a-4832-89fb-55f2f16d13d3",                              # Text-to-speech voice
